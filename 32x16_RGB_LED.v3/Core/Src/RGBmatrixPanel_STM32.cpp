@@ -19,11 +19,12 @@ RGBmatrixPanel_STM32::RGBmatrixPanel_STM32(bool dbuf)
     cursor_y = 0;
     text_color = 0xFFFF; // White
 
-    // Allocate buffers
-    matrixbuff[0] = (uint8_t *)malloc(nRows * WIDTH * 3); // 3 bytes per 8 pixels per row
+    // Allocate buffers: HEIGHT rows * (WIDTH * 3 / 8) bytes per row
+    int buffsize = HEIGHT * (WIDTH * 3 / 8);
+    matrixbuff[0] = (uint8_t *)malloc(buffsize);
     if (doublebuffer)
     {
-        matrixbuff[1] = (uint8_t *)malloc(nRows * WIDTH * 3);
+        matrixbuff[1] = (uint8_t *)malloc(buffsize);
     }
     else
     {
@@ -47,7 +48,7 @@ void RGBmatrixPanel_STM32::updateDisplay(void)
 
     // Simplified for static display, no planes
     uint8_t next_row = row + 1;
-    if (next_row >= nRows)
+    if (next_row >= 16)
     {
         next_row = 0;
         if (swapflag)
@@ -59,11 +60,14 @@ void RGBmatrixPanel_STM32::updateDisplay(void)
     }
     row = next_row;
 
-    // Set row address A B C, D=0 for 8 rows
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, (row & 0x1) ? GPIO_PIN_SET : GPIO_PIN_RESET); // A
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, (row & 0x2) ? GPIO_PIN_SET : GPIO_PIN_RESET); // B
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, (row & 0x4) ? GPIO_PIN_SET : GPIO_PIN_RESET); // C
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);                              // D
+    // Set row address A B C, D for 16 rows
+    uint8_t D = row / 8;
+    uint8_t addr = row % 8;
+    uint8_t row_addr = addr;                                                                // Normal row bits
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, (row_addr & 0x1) ? GPIO_PIN_SET : GPIO_PIN_RESET); // A
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, (row_addr & 0x2) ? GPIO_PIN_SET : GPIO_PIN_RESET); // B
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, (row_addr & 0x4) ? GPIO_PIN_SET : GPIO_PIN_RESET); // C
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, D ? GPIO_PIN_SET : GPIO_PIN_RESET);                // D
 
     // Enable OE
     HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET); // OE low
@@ -72,20 +76,21 @@ void RGBmatrixPanel_STM32::updateDisplay(void)
     HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET); // LAT low
 
     // Load data using direct register for speed
-    uint8_t *ptr = matrixbuff[backindex] + row * WIDTH * 3;        // Upper row
-    uint8_t *ptr2 = matrixbuff[backindex] + (row + 8) * WIDTH * 3; // Lower row
-    GPIO_TypeDef *dataPort = GPIOA;                                // PA5-PA10
-    uint32_t clkPin = GPIO_PIN_10;                                 // PB10
+    int bytes_per_row = WIDTH * 3 / 8;
+    uint8_t buffer_row = addr + (D * 8);
+    uint8_t *ptr = matrixbuff[backindex] + buffer_row * bytes_per_row; // Single row for entire display
+    GPIO_TypeDef *dataPort = GPIOA;                                    // PA5-PA10
+    uint32_t clkPin = GPIO_PIN_10;                                     // PB10
     GPIO_TypeDef *clkPort = GPIOB;
 
     for (int col = 0; col < WIDTH; col++)
     {
-        uint8_t r1 = (ptr[col / 8 * 3 + 0] >> (7 - (col % 8))) & 1;
+        uint8_t r1 = (ptr[col / 8 * 3 + 0] >> (7 - (col % 8))) & 1; // MSB first
         uint8_t g1 = (ptr[col / 8 * 3 + 1] >> (7 - (col % 8))) & 1;
         uint8_t b1 = (ptr[col / 8 * 3 + 2] >> (7 - (col % 8))) & 1;
-        uint8_t r2 = (ptr2[col / 8 * 3 + 0] >> (7 - (col % 8))) & 1;
-        uint8_t g2 = (ptr2[col / 8 * 3 + 1] >> (7 - (col % 8))) & 1;
-        uint8_t b2 = (ptr2[col / 8 * 3 + 2] >> (7 - (col % 8))) & 1;
+        uint8_t r2 = r1; // Same data for both halves
+        uint8_t g2 = g1;
+        uint8_t b2 = b1;
 
         // Set data pins PA5=R1, PA6=G1, PA7=B1, PA8=R2, PA9=G2, PA10=B2
         dataPort->ODR = (dataPort->ODR & ~(0x3F << 5)) | ((r1 << 5) | (g1 << 6) | (b1 << 7) | (r2 << 8) | (g2 << 9) | (b2 << 10));
@@ -112,9 +117,10 @@ void RGBmatrixPanel_STM32::drawPixel(int16_t x, int16_t y, uint16_t color)
     uint8_t g_bit = (g > 31) ? 1 : 0;
     uint8_t b_bit = (b > 15) ? 1 : 0;
 
-    // Calculate buffer position (packed as 8 pixels per 3 bytes)
-    uint8_t *ptr = matrixbuff[backindex] + y * WIDTH * 3 + (x / 8 * 3);
-    uint8_t bit = 7 - (x % 8);
+    // Calculate buffer position: HEIGHT rows * (WIDTH * 3 / 8) bytes per row
+    int bytes_per_row = WIDTH * 3 / 8;
+    uint8_t *ptr = matrixbuff[backindex] + y * bytes_per_row + (x / 8 * 3);
+    uint8_t bit = 7 - (x % 8); // MSB first
     uint8_t mask = 1 << bit;
 
     if (r_bit)

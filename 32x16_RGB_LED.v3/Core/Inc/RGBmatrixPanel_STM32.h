@@ -7,7 +7,7 @@
 // For 32x16 matrix: 32 columns, 16 rows, 1/8 scan
 #define WIDTH 32
 #define HEIGHT 16
-#define NROWS 8
+#define NROWS 16
 #define NCOLS 32
 
 class RGBmatrixPanel_STM32
