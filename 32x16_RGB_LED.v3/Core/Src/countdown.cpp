@@ -50,11 +50,19 @@ void countdown()
 
         matrix.fillScreen(0);
 
-        char timeStr[6];
-        sprintf(timeStr, "%02d:%02d", minutes, seconds);
-        matrix.setCursor(1, 1);
+        matrix.setCursor(3, 1);
         matrix.setTextColor(matrix.Color333(7, 0, 0)); // Red
-        matrix.print(timeStr);
+        char minStr[3];
+        sprintf(minStr, "%02d", minutes);
+        matrix.print(minStr);
+
+        matrix.setCursor(15, 1);
+        matrix.print(":");
+
+        matrix.setCursor(19, 1);
+        char secStr[3];
+        sprintf(secStr, "%02d", seconds);
+        matrix.print(secStr);
     }
 
     matrix.updateDisplay();
