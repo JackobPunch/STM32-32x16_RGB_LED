@@ -48,7 +48,7 @@ void RGBmatrixPanel_STM32::updateDisplay(void)
 
     // Simplified for static display, no planes
     uint8_t next_row = row + 1;
-    if (next_row >= 16)
+    if (next_row >= nRows)
     {
         next_row = 0;
         if (swapflag)
@@ -60,14 +60,12 @@ void RGBmatrixPanel_STM32::updateDisplay(void)
     }
     row = next_row;
 
-    // Set row address A B C, D for 16 rows
-    uint8_t D = row / 8;
-    uint8_t addr = row % 8;
-    uint8_t row_addr = addr;                                                                // Normal row bits
+    // Set row address A B C, D=0 for 8 rows
+    uint8_t row_addr = 7 - row;                                                             // Reverse row bits
     HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, (row_addr & 0x1) ? GPIO_PIN_SET : GPIO_PIN_RESET); // A
     HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, (row_addr & 0x2) ? GPIO_PIN_SET : GPIO_PIN_RESET); // B
     HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, (row_addr & 0x4) ? GPIO_PIN_SET : GPIO_PIN_RESET); // C
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, D ? GPIO_PIN_SET : GPIO_PIN_RESET);                // D
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);                                   // D
 
     // Enable OE
     HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET); // OE low
@@ -77,8 +75,10 @@ void RGBmatrixPanel_STM32::updateDisplay(void)
 
     // Load data using direct register for speed
     int bytes_per_row = WIDTH * 3 / 8;
-    uint8_t buffer_row = addr + (D * 8);
-    uint8_t *ptr = matrixbuff[backindex] + buffer_row * bytes_per_row; // Single row for entire display
+    uint8_t upper_row = 7 - row;                                       // Reverse upper half
+    uint8_t lower_row = 15 - row;                                      // Reverse lower half
+    uint8_t *ptr = matrixbuff[backindex] + upper_row * bytes_per_row;  // Upper row
+    uint8_t *ptr2 = matrixbuff[backindex] + lower_row * bytes_per_row; // Lower row
     GPIO_TypeDef *dataPort = GPIOA;                                    // PA5-PA10
     uint32_t clkPin = GPIO_PIN_10;                                     // PB10
     GPIO_TypeDef *clkPort = GPIOB;
@@ -88,9 +88,9 @@ void RGBmatrixPanel_STM32::updateDisplay(void)
         uint8_t r1 = (ptr[col / 8 * 3 + 0] >> (7 - (col % 8))) & 1; // MSB first
         uint8_t g1 = (ptr[col / 8 * 3 + 1] >> (7 - (col % 8))) & 1;
         uint8_t b1 = (ptr[col / 8 * 3 + 2] >> (7 - (col % 8))) & 1;
-        uint8_t r2 = r1; // Same data for both halves
-        uint8_t g2 = g1;
-        uint8_t b2 = b1;
+        uint8_t r2 = (ptr2[col / 8 * 3 + 0] >> (7 - (col % 8))) & 1;
+        uint8_t g2 = (ptr2[col / 8 * 3 + 1] >> (7 - (col % 8))) & 1;
+        uint8_t b2 = (ptr2[col / 8 * 3 + 2] >> (7 - (col % 8))) & 1;
 
         // Set data pins PA5=R1, PA6=G1, PA7=B1, PA8=R2, PA9=G2, PA10=B2
         dataPort->ODR = (dataPort->ODR & ~(0x3F << 5)) | ((r1 << 5) | (g1 << 6) | (b1 << 7) | (r2 << 8) | (g2 << 9) | (b2 << 10));

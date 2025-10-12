@@ -1,10 +1,10 @@
-18:59:13 **** Incremental Build of configuration Debug for project 32x16_RGB_LED.v3 ****
+19:41:39 **** Incremental Build of configuration Debug for project 32x16_RGB_LED.v3 ****
 make -j8 all 
 arm-none-eabi-size  32x16_RGB_LED.v3.elf 
    text	   data	    bss	    dec	    hex	filename
-  11084	     96	   1944	  13124	   3344	32x16_RGB_LED.v3.elf
+  11260	     96	   1944	  13300	   33f4	32x16_RGB_LED.v3.elf
 Finished building: default.size.stdout
  
 
-18:59:13 Build Finished. 0 errors, 0 warnings. (took 260ms)
+19:41:39 Build Finished. 0 errors, 0 warnings. (took 328ms)
 

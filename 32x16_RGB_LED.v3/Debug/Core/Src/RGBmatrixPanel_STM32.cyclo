@@ -1,6 +1,6 @@
 ../Core/Src/RGBmatrixPanel_STM32.cpp:8:1:RGBmatrixPanel_STM32::RGBmatrixPanel_STM32(bool)	2
 ../Core/Src/RGBmatrixPanel_STM32.cpp:36:6:void RGBmatrixPanel_STM32::begin()	1
-../Core/Src/RGBmatrixPanel_STM32.cpp:41:6:void RGBmatrixPanel_STM32::updateDisplay()	8
+../Core/Src/RGBmatrixPanel_STM32.cpp:41:6:void RGBmatrixPanel_STM32::updateDisplay()	10
 ../Core/Src/RGBmatrixPanel_STM32.cpp:105:6:void RGBmatrixPanel_STM32::drawPixel(int16_t, int16_t, uint16_t)	12
 ../Core/Src/RGBmatrixPanel_STM32.cpp:143:6:void RGBmatrixPanel_STM32::fillScreen(uint16_t)	3
 ../Core/Src/RGBmatrixPanel_STM32.cpp:154:6:void RGBmatrixPanel_STM32::setCursor(int16_t, int16_t)	1

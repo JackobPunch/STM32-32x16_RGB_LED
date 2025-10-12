@@ -228,11 +228,45 @@ The display now shows recognizable but distorted text. Next steps: swap upper/lo
   - Implemented D pin for half selection: D = row / 8, addr = row % 8
   - Buffer row = addr + (D \* 8)
   - Load data for entire row (same for both halves)
-- **Result**: Compiled successfully (ELF size 13092 bytes), ready for testing
-- **Expected**: Physical rows 0-7 show buffer rows 0-7, rows 8-15 show buffer rows 8-15 - enabling two-line text display
-- **Status**: ⏳ Awaiting user test results
+- **Result**: Compiled successfully (ELF size 13092 bytes), but caused split timer display
+- **Status**: ❌ Caused two timers: one correct in center rows 6-12, one split (top 13-15, bottom 0-3)
 
-### Hardware Pin Mapping
+#### 17. Revert to 8-Row Multiplexing with Separate Upper/Lower Data (2025-10-12)
+
+- **Issue**: 16-row multiplexing caused display artifacts, need to fix split timer issue
+- **Fix**:
+  - Reverted NROWS to 8
+  - Use separate ptr for upper (row) and lower (row+8) halves
+  - LSB bit extraction
+  - D=0 always
+- **Result**: Compiled successfully (ELF size 13168 bytes), but display distorted with row/column shifts
+- **Status**: ❌ Distorted display: upper row 7 as first, bottom shifted, columns reversed
+
+#### 18. Adjust Cursor, Reverse Mappings, and Fix Bit/Column Order (2025-10-12)
+
+- **Issue**: Display distorted with wrong row/column ordering
+- **Fix**:
+  - Changed cursor to (1,0) for timer display
+  - Reversed row mapping: upper_row = 7 - row, lower_row = 15 - row
+  - Reversed column loop: for(col = WIDTH-1; col >=0; col--)
+  - Changed to MSB bit extraction: >> (7 - (col % 8))
+- **Result**: Compiled successfully (ELF size 13264 bytes), display nearly correct but upside down
+- **Status**: ✅ Nearly working - clock on rows 3-8 with upside down line on row 0
+
+#### 19. Reverse Row Addressing for Correct Orientation (2025-10-12)
+
+- **Issue**: Display upside down, need to flip orientation
+- **Fix**: Changed row_addr = 7 - row to reverse physical row activation
+- **Result**: Compiled successfully (ELF size 13268 bytes), correct orientation but timer split across rows 1-6 and 8
+- **Status**: ✅ Correct orientation - clock on rows 1-6, top line on row 8
+
+#### 20. Adjust Cursor for Contiguous Timer Display (2025-10-12)
+
+- **Issue**: Timer display split with top line separated
+- **Fix**: Changed cursor to (1,1) to shift timer up by one row
+- **Result**: Compiled successfully (ELF size 13276 bytes), ready for testing
+- **Expected**: Timer displays contiguously on rows 0-6 with proper alignment
+- **Status**: ⏳ Awaiting final test results
 
 - PA5-PA7: R1,G1,B1 (upper data)
 - PA8-PA10: R2,G2,B2 (lower data)

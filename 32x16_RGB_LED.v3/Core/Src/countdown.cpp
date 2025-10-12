@@ -32,7 +32,7 @@ void countdown()
             {
                 finished = true;
                 matrix.fillScreen(0);
-                matrix.setCursor(8, 4);
+                matrix.setCursor(8, 1);
                 matrix.setTextColor(matrix.Color333(0, 7, 0)); // Green
                 matrix.print("END");
                 return;
@@ -52,7 +52,7 @@ void countdown()
 
         char timeStr[6];
         sprintf(timeStr, "%02d:%02d", minutes, seconds);
-        matrix.setCursor(1, 4);
+        matrix.setCursor(1, 1);
         matrix.setTextColor(matrix.Color333(7, 0, 0)); // Red
         matrix.print(timeStr);
     }
