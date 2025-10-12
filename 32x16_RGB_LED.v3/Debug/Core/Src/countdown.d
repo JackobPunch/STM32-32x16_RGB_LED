@@ -1,4 +1,4 @@
-Core/Src/hub75.o: ../Core/Src/hub75.cpp ../Core/Inc/main.h \
+Core/Src/countdown.o: ../Core/Src/countdown.cpp ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -24,9 +24,7 @@ Core/Src/hub75.o: ../Core/Src/hub75.cpp ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
- ../Core/Inc/hub75.h ../Core/Inc/pin.h ../Core/Inc/memory.h \
- ../Core/Inc/pin_row.h ../Core/Inc/frame.h ../Core/Inc/pixel.h \
- ../Core/Inc/led_frame.h ../Core/Inc/frame.h ../Core/Inc/pixel.h
+ ../Core/Inc/RGBmatrixPanel_STM32.h ../Core/Inc/countdown.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -53,12 +51,5 @@ Core/Src/hub75.o: ../Core/Src/hub75.cpp ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
-../Core/Inc/hub75.h:
-../Core/Inc/pin.h:
-../Core/Inc/memory.h:
-../Core/Inc/pin_row.h:
-../Core/Inc/frame.h:
-../Core/Inc/pixel.h:
-../Core/Inc/led_frame.h:
-../Core/Inc/frame.h:
-../Core/Inc/pixel.h:
+../Core/Inc/RGBmatrixPanel_STM32.h:
+../Core/Inc/countdown.h:
