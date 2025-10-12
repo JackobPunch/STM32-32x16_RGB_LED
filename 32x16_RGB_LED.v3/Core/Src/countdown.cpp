@@ -56,10 +56,10 @@ void countdown()
         sprintf(minStr, "%02d", minutes);
         matrix.print(minStr);
 
-        matrix.setCursor(15, 1);
+        matrix.setCursor(13, 1);
         matrix.print(":");
 
-        matrix.setCursor(19, 1);
+        matrix.setCursor(17, 1);
         char secStr[3];
         sprintf(secStr, "%02d", seconds);
         matrix.print(secStr);

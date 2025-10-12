@@ -1696,9 +1696,9 @@ void countdown()
  8000eea:	4816      	ldr	r0, [pc, #88]	@ (8000f44 <countdown+0x124>)
  8000eec:	f7ff fe83 	bl	8000bf6 <_ZN20RGBmatrixPanel_STM325printEPKc>
 
-        matrix.setCursor(15, 1);
+        matrix.setCursor(13, 1);
  8000ef0:	2201      	movs	r2, #1
- 8000ef2:	210f      	movs	r1, #15
+ 8000ef2:	210d      	movs	r1, #13
  8000ef4:	4813      	ldr	r0, [pc, #76]	@ (8000f44 <countdown+0x124>)
  8000ef6:	f7ff fe5b 	bl	8000bb0 <_ZN20RGBmatrixPanel_STM329setCursorEss>
         matrix.print(":");
@@ -1706,9 +1706,9 @@ void countdown()
  8000efc:	4811      	ldr	r0, [pc, #68]	@ (8000f44 <countdown+0x124>)
  8000efe:	f7ff fe7a 	bl	8000bf6 <_ZN20RGBmatrixPanel_STM325printEPKc>
 
-        matrix.setCursor(19, 1);
+        matrix.setCursor(17, 1);
  8000f02:	2201      	movs	r2, #1
- 8000f04:	2113      	movs	r1, #19
+ 8000f04:	2111      	movs	r1, #17
  8000f06:	480f      	ldr	r0, [pc, #60]	@ (8000f44 <countdown+0x124>)
  8000f08:	f7ff fe52 	bl	8000bb0 <_ZN20RGBmatrixPanel_STM329setCursorEss>
         char secStr[3];
