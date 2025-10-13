@@ -169,8 +169,8 @@ The LED matrix appears to use a proprietary or non-standard HUB75 variant that d
 ✅ **Countdown Timer Implemented!**
 
 - Counts down from 03:00 to 00:00
-- Displays time in MM:SS format in red (top rows)
-- Shows green "TIMER" label continuously (bottom rows 9-15)
+- Displays time in MM:SS format in red (bottom rows)
+- Shows green "TIMER" label continuously (top rows)
 - Stops at 00:00 and keeps displaying "00:00"
 - Uses working LED matrix display with 8-color support
 

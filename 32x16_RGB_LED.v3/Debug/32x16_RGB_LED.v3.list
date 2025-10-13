@@ -1821,9 +1821,9 @@ void countdown()
  8000ff8:	482e      	ldr	r0, [pc, #184]	@ (80010b4 <countdown+0x120>)
  8000ffa:	f7ff fdb4 	bl	8000b66 <_ZN20RGBmatrixPanel_STM3210fillScreenEt>
 
-        // Display countdown timer (always show, even when finished)
-        matrix.setCursor(3, 1);
- 8000ffe:	2201      	movs	r2, #1
+        // Display countdown timer at the bottom in red
+        matrix.setCursor(3, 9);
+ 8000ffe:	2209      	movs	r2, #9
  8001000:	2103      	movs	r1, #3
  8001002:	482c      	ldr	r0, [pc, #176]	@ (80010b4 <countdown+0x120>)
  8001004:	f7ff fdd4 	bl	8000bb0 <_ZN20RGBmatrixPanel_STM329setCursorEss>
@@ -1851,8 +1851,8 @@ void countdown()
  8001034:	481f      	ldr	r0, [pc, #124]	@ (80010b4 <countdown+0x120>)
  8001036:	f7ff fdde 	bl	8000bf6 <_ZN20RGBmatrixPanel_STM325printEPKc>
 
-        matrix.setCursor(13, 1);
- 800103a:	2201      	movs	r2, #1
+        matrix.setCursor(13, 9);
+ 800103a:	2209      	movs	r2, #9
  800103c:	210d      	movs	r1, #13
  800103e:	481d      	ldr	r0, [pc, #116]	@ (80010b4 <countdown+0x120>)
  8001040:	f7ff fdb6 	bl	8000bb0 <_ZN20RGBmatrixPanel_STM329setCursorEss>
@@ -1861,8 +1861,8 @@ void countdown()
  8001046:	481b      	ldr	r0, [pc, #108]	@ (80010b4 <countdown+0x120>)
  8001048:	f7ff fdd5 	bl	8000bf6 <_ZN20RGBmatrixPanel_STM325printEPKc>
 
-        matrix.setCursor(17, 1);
- 800104c:	2201      	movs	r2, #1
+        matrix.setCursor(17, 9);
+ 800104c:	2209      	movs	r2, #9
  800104e:	2111      	movs	r1, #17
  8001050:	4818      	ldr	r0, [pc, #96]	@ (80010b4 <countdown+0x120>)
  8001052:	f7ff fdad 	bl	8000bb0 <_ZN20RGBmatrixPanel_STM329setCursorEss>
@@ -1880,9 +1880,9 @@ void countdown()
  8001068:	4812      	ldr	r0, [pc, #72]	@ (80010b4 <countdown+0x120>)
  800106a:	f7ff fdc4 	bl	8000bf6 <_ZN20RGBmatrixPanel_STM325printEPKc>
 
-        // Always display "TIMER" at the bottom in green
-        matrix.setCursor(1, 9);
- 800106e:	2209      	movs	r2, #9
+        // Always display "TIMER" at the top in green
+        matrix.setCursor(1, 1);
+ 800106e:	2201      	movs	r2, #1
  8001070:	2101      	movs	r1, #1
  8001072:	4810      	ldr	r0, [pc, #64]	@ (80010b4 <countdown+0x120>)
  8001074:	f7ff fd9c 	bl	8000bb0 <_ZN20RGBmatrixPanel_STM329setCursorEss>
