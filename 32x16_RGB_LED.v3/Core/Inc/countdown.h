@@ -14,6 +14,10 @@ extern "C"
 
 #ifdef __cplusplus
 }
+
+// C++ functions
+void update_display(void);
+
 #endif
 
 #endif
