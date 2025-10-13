@@ -97,25 +97,99 @@ void update_display()
     // Always clear the entire display first
     matrix.fillScreen(0);
 
-    // Display countdown timer at the bottom in red
-    matrix.setCursor(3, 9);
-    matrix.setTextColor(RED); // Red
-    char minStr[3];
-    sprintf(minStr, "%02d", minutes);
-    matrix.print(minStr);
+    // Check timer states
+    bool is_ready_state = (paused && minutes == 3 && seconds == 0 && !finished);
+    bool is_stopped_state = (paused && !(minutes == 3 && seconds == 0) && !finished);
+    bool is_finished_state = finished;
 
-    matrix.setCursor(13, 9);
-    matrix.print(":");
+    if (is_ready_state)
+    {
+        // Ready state: Yellow "READY?" + Blue countdown
+        matrix.setCursor(3, 9);
+        matrix.setTextColor(BLUE); // Blue
+        char minStr[3];
+        sprintf(minStr, "%02d", minutes);
+        matrix.print(minStr);
 
-    matrix.setCursor(17, 9);
-    char secStr[3];
-    sprintf(secStr, "%02d", seconds);
-    matrix.print(secStr);
+        matrix.setCursor(13, 9);
+        matrix.print(":");
 
-    // Always display "TIMER" at the top in green
-    matrix.setCursor(1, 1);
-    matrix.setTextColor(GREEN); // Green
-    matrix.print("TIMER");
+        matrix.setCursor(17, 9);
+        char secStr[3];
+        sprintf(secStr, "%02d", seconds);
+        matrix.print(secStr);
+
+        // Display "READY?" at the top in yellow
+        matrix.setCursor(1, 1);
+        matrix.setTextColor(YELLOW); // Yellow
+        matrix.print("READY");
+    }
+    else if (is_stopped_state)
+    {
+        // Stopped state: Yellow countdown + Red "STOP"
+        matrix.setCursor(3, 9);
+        matrix.setTextColor(YELLOW); // Yellow
+        char minStr[3];
+        sprintf(minStr, "%02d", minutes);
+        matrix.print(minStr);
+
+        matrix.setCursor(13, 9);
+        matrix.print(":");
+
+        matrix.setCursor(17, 9);
+        char secStr[3];
+        sprintf(secStr, "%02d", seconds);
+        matrix.print(secStr);
+
+        // Display "STOP" at the top in red
+        matrix.setCursor(4, 1);
+        matrix.setTextColor(RED); // Red
+        matrix.print("STOP");
+    }
+    else if (is_finished_state)
+    {
+        // Finished state: Yellow "00:00" + Red "STOP"
+        matrix.setCursor(3, 9);
+        matrix.setTextColor(YELLOW); // Yellow
+        char minStr[3];
+        sprintf(minStr, "%02d", minutes);
+        matrix.print(minStr);
+
+        matrix.setCursor(13, 9);
+        matrix.print(":");
+
+        matrix.setCursor(17, 9);
+        char secStr[3];
+        sprintf(secStr, "%02d", seconds);
+        matrix.print(secStr);
+
+        // Display "STOP" at the top in red
+        matrix.setCursor(4, 1);
+        matrix.setTextColor(RED); // Red
+        matrix.print("STOP");
+    }
+    else
+    {
+        // Active/Counting state: Red countdown + Green "TIMER"
+        matrix.setCursor(3, 9);
+        matrix.setTextColor(RED); // Red
+        char minStr[3];
+        sprintf(minStr, "%02d", minutes);
+        matrix.print(minStr);
+
+        matrix.setCursor(13, 9);
+        matrix.print(":");
+
+        matrix.setCursor(17, 9);
+        char secStr[3];
+        sprintf(secStr, "%02d", seconds);
+        matrix.print(secStr);
+
+        // Display "GO!!!" at the top in green
+        matrix.setCursor(2, 1);
+        matrix.setTextColor(GREEN); // Green
+        matrix.print("GO!!!");
+    }
 
     // Note: matrix.updateDisplay() is now called continuously in main loop
 }

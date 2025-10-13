@@ -6,7 +6,7 @@ A complete STM32-based countdown timer display for 32x16 RGB LED matrices using 
 
 - **Countdown Timer**: Counts down from 03:00 to 00:00 with MM:SS format
 - **Persistent Display**: Timer stays visible as "00:00" when countdown finishes
-- **Dual Display**: Green "TIMER" label at top, red countdown at bottom
+- **Visual State Feedback**: Different colors and labels for each operational state
 - **Button Controls**: Full user control with start, stop, and reset buttons
 - **8-Color Support**: Full RGB color palette with easy color selection
 - **Smooth Updates**: 1-second intervals with no flickering
@@ -91,6 +91,15 @@ matrix.setTextColor(Color333(7, 0, 0));  // Red
 matrix.setTextColor(Color1bit(1, 0, 1)); // Magenta
 ```
 
+## 🔤 Font Support
+
+The display supports the following characters:
+
+- **Letters**: A-Z (uppercase only)
+- **Numbers**: 0-9
+- **Punctuation**: ! ? :
+- **Symbols**: space
+
 ## � Button Controls
 
 The countdown timer features full user control with three buttons:
@@ -103,11 +112,18 @@ The countdown timer features full user control with three buttons:
 
 ### Operation
 
-1. **Power On**: Timer displays "03:00" and remains paused
-2. **Press START**: Countdown begins from 03:00 → 02:59 → ... → 00:00
-3. **Press STOP**: Countdown freezes at current time
-4. **Press RESET**: Timer resets to "03:00" and stops
-5. **Countdown End**: Timer stops at "00:00" and stays displayed
+1. **Power On**: Timer displays "READY?" in yellow with blue "03:00"
+2. **Press START**: Display changes to green "GO!!!" with red countdown, begins counting
+3. **Press STOP**: Display changes to red "STOP" with yellow countdown, freezes timer
+4. **Press RESET**: Returns to "READY?" state with blue "03:00"
+5. **Countdown End**: Timer stops and displays yellow "00:00" with red "STOP" sign
+
+### Visual States
+
+- **Ready State** (initial/reset): Yellow "READY?" + Blue "03:00"
+- **Active State** (counting): Green "GO!!!" + Red countdown
+- **Stopped State** (paused): Red "STOP" + Yellow countdown
+- **Finished State** (countdown complete): Red "STOP" + Yellow "00:00"
 
 ### Button Implementation
 
@@ -170,7 +186,7 @@ Row 8-15:  Red countdown "MM:SS" (centered)
 ## 📊 Performance
 
 - **Update Rate**: 1 Hz (1-second intervals)
-- **Binary Size**: ~15.1KB
+- **Binary Size**: ~15.5KB
 - **RAM Usage**: ~2KB
 - **Power Consumption**: ~150mA (matrix dependent)
 - **Button Response**: <10ms (debounced)

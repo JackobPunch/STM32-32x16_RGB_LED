@@ -188,6 +188,16 @@ void RGBmatrixPanel_STM32::print(const char *str)
         {
             x += 6;
         }
+        else if (*str == '!')
+        {
+            drawChar(x, y, *str, text_color);
+            x += 6;
+        }
+        else if (*str == '?')
+        {
+            drawChar(x, y, *str, text_color);
+            x += 6;
+        }
         str++;
     }
 }
@@ -267,6 +277,50 @@ void RGBmatrixPanel_STM32::drawChar(int x, int y, char c, uint16_t color)
             int dx = i % 5;
             int dy = i / 5;
             if (letterBitmaps[index][i])
+            {
+                drawPixel(x + dx, y + dy, color);
+            }
+        }
+    }
+    else if (c == '!')
+    {
+        // Exclamation mark: vertical line with dot at bottom
+        const uint8_t exclamationBitmap[35] = {
+            0, 0, 1, 0, 0, // row 0
+            0, 0, 1, 0, 0, // row 1
+            0, 0, 1, 0, 0, // row 2
+            0, 0, 1, 0, 0, // row 3
+            0, 0, 1, 0, 0, // row 4
+            0, 0, 0, 0, 0, // row 5
+            0, 0, 1, 0, 0  // row 6 (dot)
+        };
+        for (int i = 0; i < 35; i++)
+        {
+            int dx = i % 5;
+            int dy = i / 5;
+            if (exclamationBitmap[i])
+            {
+                drawPixel(x + dx, y + dy, color);
+            }
+        }
+    }
+    else if (c == '?')
+    {
+        // Question mark: simplified representation
+        const uint8_t questionBitmap[35] = {
+            0, 1, 1, 1, 0, // row 0
+            1, 0, 0, 0, 1, // row 1
+            0, 0, 0, 1, 0, // row 2
+            0, 0, 1, 0, 0, // row 3
+            0, 0, 0, 0, 0, // row 4
+            0, 0, 0, 0, 0, // row 5
+            0, 0, 1, 0, 0  // row 6 (dot)
+        };
+        for (int i = 0; i < 35; i++)
+        {
+            int dx = i % 5;
+            int dy = i / 5;
+            if (questionBitmap[i])
             {
                 drawPixel(x + dx, y + dy, color);
             }

@@ -3,6 +3,6 @@
 ../Core/Src/countdown.cpp:73:6:void countdown_start()	1
 ../Core/Src/countdown.cpp:79:6:void countdown_stop()	1
 ../Core/Src/countdown.cpp:85:6:void countdown_reset()	1
-../Core/Src/countdown.cpp:95:6:void update_display()	1
-../Core/Src/countdown.cpp:121:1:void __static_initialization_and_destruction_0()	1
-../Core/Src/countdown.cpp:121:1:cpp)	1
+../Core/Src/countdown.cpp:95:6:void update_display()	12
+../Core/Src/countdown.cpp:195:1:void __static_initialization_and_destruction_0()	1
+../Core/Src/countdown.cpp:195:1:cpp)	1

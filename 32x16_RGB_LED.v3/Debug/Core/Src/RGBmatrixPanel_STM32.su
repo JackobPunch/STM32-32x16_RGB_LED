@@ -6,7 +6,7 @@
 ../Core/Src/RGBmatrixPanel_STM32.cpp:154:6:void RGBmatrixPanel_STM32::setCursor(int16_t, int16_t)	16	static
 ../Core/Src/RGBmatrixPanel_STM32.cpp:160:6:void RGBmatrixPanel_STM32::setTextColor(uint16_t)	16	static
 ../Core/Src/RGBmatrixPanel_STM32.cpp:165:6:void RGBmatrixPanel_STM32::print(const char*)	32	static
-../Core/Src/RGBmatrixPanel_STM32.cpp:195:10:uint16_t RGBmatrixPanel_STM32::Color333(uint8_t, uint8_t, uint8_t)	16	static
-../Core/Src/RGBmatrixPanel_STM32.cpp:200:10:uint16_t RGBmatrixPanel_STM32::Color1bit(uint8_t, uint8_t, uint8_t)	16	static
-../Core/Src/RGBmatrixPanel_STM32.cpp:206:6:void RGBmatrixPanel_STM32::drawDigit(int, int, int, uint16_t)	400	static
-../Core/Src/RGBmatrixPanel_STM32.cpp:232:6:void RGBmatrixPanel_STM32::drawChar(int, int, char, uint16_t)	960	static
+../Core/Src/RGBmatrixPanel_STM32.cpp:205:10:uint16_t RGBmatrixPanel_STM32::Color333(uint8_t, uint8_t, uint8_t)	16	static
+../Core/Src/RGBmatrixPanel_STM32.cpp:210:10:uint16_t RGBmatrixPanel_STM32::Color1bit(uint8_t, uint8_t, uint8_t)	16	static
+../Core/Src/RGBmatrixPanel_STM32.cpp:216:6:void RGBmatrixPanel_STM32::drawDigit(int, int, int, uint16_t)	400	static
+../Core/Src/RGBmatrixPanel_STM32.cpp:242:6:void RGBmatrixPanel_STM32::drawChar(int, int, char, uint16_t)	984	static
