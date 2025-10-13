@@ -17,39 +17,35 @@ bool finished = false;
 
 void countdown()
 {
-    if (finished)
-        return;
-
     unsigned long currentMillis = HAL_GetTick();
 
     if (currentMillis - previousMillis >= 1000)
     {
         previousMillis = currentMillis;
 
-        if (seconds == 0)
+        if (!finished)
         {
-            if (minutes == 0)
+            if (seconds == 0)
             {
-                finished = true;
-                matrix.fillScreen(0);
-                matrix.setCursor(8, 1);
-                matrix.setTextColor(matrix.Color333(0, 7, 0)); // Green
-                matrix.print("END");
-                return;
+                if (minutes == 0)
+                {
+                    finished = true;
+                }
+                else
+                {
+                    minutes--;
+                    seconds = 59;
+                }
             }
             else
             {
-                minutes--;
-                seconds = 59;
+                seconds--;
             }
-        }
-        else
-        {
-            seconds--;
         }
 
         matrix.fillScreen(0);
 
+        // Display countdown timer (always show, even when finished)
         matrix.setCursor(3, 1);
         matrix.setTextColor(matrix.Color333(7, 0, 0)); // Red
         char minStr[3];
@@ -63,6 +59,11 @@ void countdown()
         char secStr[3];
         sprintf(secStr, "%02d", seconds);
         matrix.print(secStr);
+
+        // Always display "TIMER" at the bottom in green
+        matrix.setCursor(11, 9);
+        matrix.setTextColor(matrix.Color333(0, 7, 0)); // Green
+        matrix.print("TIMER");
     }
 
     matrix.updateDisplay();
