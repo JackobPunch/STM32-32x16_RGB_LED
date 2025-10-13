@@ -12,6 +12,7 @@ bool finished = false;
 bool paused = true;               // Start paused at 03:00
 bool display_needs_update = true; // Track if display needs refreshing
 bool first_run = true;            // Flag for first countdown() call
+bool ready_alternate = false;     // Toggle between "READY" and "ST8DY"
 
 void countdown_init()
 {
@@ -52,6 +53,18 @@ void countdown()
         update_display();
     }
 
+    // Handle ready state alternating display
+    if (paused && minutes == 3 && seconds == 0 && !finished)
+    {
+        static unsigned long last_toggle = 0;
+        if (currentMillis - last_toggle >= 1000)
+        {
+            last_toggle = currentMillis;
+            ready_alternate = !ready_alternate;
+            update_display();
+        }
+    }
+
     // Force initial display update on first run to clear random colors
     if (first_run)
     {
@@ -88,6 +101,7 @@ void countdown_reset()
     finished = false;
     minutes = 3;
     seconds = 0;
+    ready_alternate = false; // Reset to show "READY" first
     previousMillis = HAL_GetTick();
     display_needs_update = true;
 }
@@ -119,10 +133,17 @@ void update_display()
         sprintf(secStr, "%02d", seconds);
         matrix.print(secStr);
 
-        // Display "READY?" at the top in yellow
+        // Display alternating "READY"/"ST8DY" at the top in yellow
         matrix.setCursor(1, 1);
         matrix.setTextColor(YELLOW); // Yellow
-        matrix.print("READY");
+        if (ready_alternate)
+        {
+            matrix.print("ST8DY");
+        }
+        else
+        {
+            matrix.print("READY");
+        }
     }
     else if (is_stopped_state)
     {

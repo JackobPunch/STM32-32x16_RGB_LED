@@ -112,15 +112,15 @@ The countdown timer features full user control with three buttons:
 
 ### Operation
 
-1. **Power On**: Timer displays "READY?" in yellow with blue "03:00"
+1. **Power On**: Timer displays alternating "READY" and "ST8DY" in yellow with blue "03:00"
 2. **Press START**: Display changes to green "GO!!!" with red countdown, begins counting
 3. **Press STOP**: Display changes to red "STOP" with yellow countdown, freezes timer
-4. **Press RESET**: Returns to "READY?" state with blue "03:00"
+4. **Press RESET**: Returns to alternating "READY"/"ST8DY" state with blue "03:00"
 5. **Countdown End**: Timer stops and displays yellow "00:00" with red "STOP" sign
 
 ### Visual States
 
-- **Ready State** (initial/reset): Yellow "READY?" + Blue "03:00"
+- **Ready State** (initial/reset): Yellow "READY"/"ST8DY" (alternating every second) + Blue "03:00"
 - **Active State** (counting): Green "GO!!!" + Red countdown
 - **Stopped State** (paused): Red "STOP" + Yellow countdown
 - **Finished State** (countdown complete): Red "STOP" + Yellow "00:00"
