@@ -22,7 +22,19 @@ public:
     void setTextColor(uint16_t color);
     void print(const char *str);
     uint16_t Color333(uint8_t r, uint8_t g, uint8_t b);
+    uint16_t Color1bit(uint8_t r, uint8_t g, uint8_t b);
     void drawDigit(int x, int y, int digit, uint16_t color);
+    void drawChar(int x, int y, char c, uint16_t color);
+
+// Color constants
+#define BLACK 0x0000
+#define RED 0xF800     // 1,0,0 in 565
+#define GREEN 0x07E0   // 0,1,0
+#define BLUE 0x001F    // 0,0,1
+#define YELLOW 0xFFE0  // 1,1,0
+#define MAGENTA 0xF81F // 1,0,1
+#define CYAN 0x07FF    // 0,1,1
+#define WHITE 0xFFFF   // 1,1,1
 
 private:
     bool doublebuffer;
