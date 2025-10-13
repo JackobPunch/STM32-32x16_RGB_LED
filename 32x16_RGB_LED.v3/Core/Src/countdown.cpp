@@ -61,7 +61,7 @@ void countdown()
         matrix.print(secStr);
 
         // Always display "TIMER" at the bottom in green
-        matrix.setCursor(3, 9);
+        matrix.setCursor(1, 9);
         matrix.setTextColor(matrix.Color333(0, 7, 0)); // Green
         matrix.print("TIMER");
     }

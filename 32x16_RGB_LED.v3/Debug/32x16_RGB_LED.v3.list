@@ -1881,9 +1881,9 @@ void countdown()
  800106a:	f7ff fdc4 	bl	8000bf6 <_ZN20RGBmatrixPanel_STM325printEPKc>
 
         // Always display "TIMER" at the bottom in green
-        matrix.setCursor(3, 9);
+        matrix.setCursor(1, 9);
  800106e:	2209      	movs	r2, #9
- 8001070:	2103      	movs	r1, #3
+ 8001070:	2101      	movs	r1, #1
  8001072:	4810      	ldr	r0, [pc, #64]	@ (80010b4 <countdown+0x120>)
  8001074:	f7ff fd9c 	bl	8000bb0 <_ZN20RGBmatrixPanel_STM329setCursorEss>
         matrix.setTextColor(matrix.Color333(0, 7, 0)); // Green
