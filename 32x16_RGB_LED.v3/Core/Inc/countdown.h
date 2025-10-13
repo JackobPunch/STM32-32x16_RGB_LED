@@ -8,6 +8,9 @@ extern "C"
 
     void countdown_init(void);
     void countdown(void);
+    void countdown_start(void);
+    void countdown_stop(void);
+    void countdown_reset(void);
 
 #ifdef __cplusplus
 }

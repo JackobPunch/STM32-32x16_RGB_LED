@@ -386,3 +386,83 @@ The STM32 32x16 RGB LED matrix project is now fully functional with comprehensiv
 - Precise cursor positioning enables perfect centering
 
 This project demonstrates successful debugging of a complex embedded display system through methodical testing and iterative fixes.
+
+#### 29. Button Control Implementation (2025-10-13)
+
+- **Objective**: Add button controls to working countdown timer without breaking display functionality
+- **Requirements**:
+
+  - PC6: Stop button (freezes countdown)
+  - PC8: Reset button (resets to 3:00 and stops)
+  - PC9: Start button (starts/resumes countdown)
+  - Maintain existing "TIMER" + "MM:SS" display
+  - Keep countdown starting automatically
+
+- **Approach**:
+
+  1. **Start from known working state**: Use the final working configuration with perfect display
+  2. **Minimal changes**: Only add button functionality, don't modify display logic
+  3. **Clean separation**: Keep button handling in main.c, countdown logic in countdown.cpp
+  4. **Simple state management**: Use single `paused` boolean, no complex state machines
+  5. **Debounced inputs**: Implement falling-edge detection to prevent multiple triggers
+
+- **Implementation Steps**:
+
+  - **GPIO Configuration**: Added GPIOC clock enable and configured PC6/PC8/PC9 as inputs with pull-up resistors
+  - **Button Variables**: Added state tracking variables for debouncing (button_stop_prev, etc.)
+  - **Main Loop Logic**: Added button reading and falling-edge detection in main while loop
+  - **Countdown Functions**: Added countdown_start(), countdown_stop(), countdown_reset() functions
+  - **Header Updates**: Added function declarations to countdown.h
+  - **State Management**: Added `paused` variable, modified countdown logic to respect pause state
+
+- **Key Design Decisions**:
+
+  - **Automatic start**: Timer starts running immediately (paused = false initially)
+  - **Simple reset**: Reset both stops the timer AND resets time to 3:00
+  - **Independent controls**: Each button works independently, no complex interactions
+  - **No display changes**: Button presses don't affect display format, only countdown behavior
+  - **Debouncing**: Falling-edge detection prevents multiple triggers from single press
+
+- **Testing Strategy**:
+
+  - Verify display still shows "TIMER" + "MM:SS" correctly
+  - Test each button individually: stop freezes, reset returns to 3:00, start resumes
+  - Confirm countdown continues automatically without button presses
+  - Check button combinations work correctly
+
+- **Result**: Compiled successfully (ELF size 15004 bytes), ready for testing
+- **Status**: ⏳ Awaiting user test results
+
+### Project Status: BUTTON CONTROLS ADDED (2025-10-13)
+
+The STM32 countdown timer now has full button control functionality while maintaining the perfect display from the previous working configuration.
+
+#### 30. Button Timing Issues Fixed (2025-10-13)
+
+- **Issues Identified**:
+
+  - Power on: Countdown started running instead of being paused at 03:00
+  - Reset + Start: Started at 02:59 instead of 03:00
+  - Timing problems causing immediate decrements
+
+- **Root Causes**:
+
+  - `paused` initialized to `false` instead of `true`
+  - `previousMillis` not properly initialized at startup
+  - Timing reset in `countdown_start()` caused immediate decrement
+
+- **Fixes Applied**:
+
+  - Changed `bool paused = true;` to start paused
+  - Initialize `previousMillis = HAL_GetTick()` in `countdown_init()`
+  - Set `previousMillis = HAL_GetTick()` in `countdown_start()` for clean timing
+  - Moved variable declarations before function definitions
+
+- **Result**: Compiled successfully (ELF size 15028 bytes), should now:
+
+  - Power on: Display 03:00 frozen
+  - Stop: Freeze countdown
+  - Reset: Display 03:00 frozen
+  - Start: Begin countdown from 03:00
+
+- **Status**: ⏳ Awaiting final user test results

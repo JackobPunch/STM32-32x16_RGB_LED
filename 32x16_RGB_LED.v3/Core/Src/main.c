@@ -43,6 +43,11 @@
 
 /* USER CODE BEGIN PV */
 
+// Button state tracking variables
+uint8_t button_stop_prev = 1;
+uint8_t button_reset_prev = 1;
+uint8_t button_start_prev = 1;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -98,14 +103,34 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    // Commented out countdown for pin testing
     countdown();
 
-    // Test one pin at a time - change the pin here
-    // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
-    // HAL_Delay(2000); // 2 seconds on
-    // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
-    // HAL_Delay(500); // 0.5 seconds off
+    // Button handling with debouncing
+    uint8_t button_stop_current = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_6);
+    uint8_t button_reset_current = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_8);
+    uint8_t button_start_current = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_9);
+
+    // Stop button (PC6) - falling edge detection
+    if (button_stop_prev == 1 && button_stop_current == 0)
+    {
+      countdown_stop();
+    }
+    button_stop_prev = button_stop_current;
+
+    // Reset button (PC8) - falling edge detection
+    if (button_reset_prev == 1 && button_reset_current == 0)
+    {
+      countdown_reset();
+    }
+    button_reset_prev = button_reset_current;
+
+    // Start button (PC9) - falling edge detection
+    if (button_start_prev == 1 && button_start_current == 0)
+    {
+      countdown_start();
+    }
+    button_start_prev = button_start_current;
+
     /* USER CODE END 3 */
   }
 }
@@ -165,6 +190,7 @@ void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10, GPIO_PIN_RESET);
@@ -189,6 +215,13 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
+
+  /* Configure button GPIOs as inputs with pull-up resistors */
+  GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_8 | GPIO_PIN_9;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /* USER CODE END MX_GPIO_Init_2 */
 }

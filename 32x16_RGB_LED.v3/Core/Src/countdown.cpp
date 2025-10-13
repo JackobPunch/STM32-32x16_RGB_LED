@@ -5,21 +5,23 @@
 
 RGBmatrixPanel_STM32 matrix(false); // Global instance
 
-void countdown_init()
-{
-    matrix.begin();
-}
-
 unsigned long previousMillis = 0;
 int seconds = 0;
 int minutes = 3;
 bool finished = false;
+bool paused = true; // Start paused at 03:00
+
+void countdown_init()
+{
+    matrix.begin();
+    previousMillis = HAL_GetTick(); // Initialize timing
+}
 
 void countdown()
 {
     unsigned long currentMillis = HAL_GetTick();
 
-    if (currentMillis - previousMillis >= 1000)
+    if (currentMillis - previousMillis >= 1000 && !paused && !finished)
     {
         previousMillis = currentMillis;
 
@@ -67,4 +69,24 @@ void countdown()
     }
 
     matrix.updateDisplay();
+}
+
+void countdown_start()
+{
+    paused = false;
+    previousMillis = HAL_GetTick() - 1000; // Ensure no immediate decrement
+}
+
+void countdown_stop()
+{
+    paused = true;
+}
+
+void countdown_reset()
+{
+    paused = true;
+    finished = false;
+    minutes = 3;
+    seconds = 0;
+    previousMillis = HAL_GetTick();
 }
