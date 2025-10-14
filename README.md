@@ -1,5 +1,15 @@
 # STM32 32x16 RGB LED Matrix Countdown Timer
 
+![Countdown Timer Demo](gif.gif)
+
+_A sped-up 4x demonstration showing all timer functionalities on dual displays_
+
+## 🏆 Smash Bot Arena 2025 Project
+
+This project was developed for **Smash Bot Arena 2025**, a competitive robotics event. The goal was to create LED matrix displays for all four sides of the competition arena to show countdown timers and match status.
+
+**Event Link:** [RoboComp 2025](https://www.robocomp.info/)
+
 A complete STM32-based countdown timer display for 32x16 RGB LED matrices using HUB75 interface with full button control functionality.
 
 ## 🎯 Features
@@ -248,5 +258,5 @@ This project was developed through systematic debugging and optimization. For de
 
 ---
 
-**Status**: ✅ **Complete and fully functional with button controls**</content>
+**Status**: ✅ **Complete and fully functional with button controls and Smash Bot Arena 2025 features**</content>
 <parameter name="filePath">c:\Users\rolni\kody\STM32-32x16_RGB_LED\README_new.md
