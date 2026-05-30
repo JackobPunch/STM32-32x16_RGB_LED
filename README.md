@@ -38,28 +38,6 @@ A complete STM32-based countdown timer display for 32x16 RGB LED matrices using 
 - **Scan Rate**: 1/8 scan multiplexing
 - **Colors**: 8 colors (1-bit RGB per pixel)
 
-### Controls
-
-- **Start Button**: PC9 (with internal pull-up)
-- **Stop Button**: PC6 (with internal pull-up)
-- **Reset Button**: PC8 (with internal pull-up)
-
-## 🔧 Hardware
-
-### Board
-
-- **Microcontroller**: STM32F413ZHT6U (ARM Cortex-M4)
-- **Clock Speed**: 100MHz
-- **Flash Memory**: 1.5MB
-- **RAM**: 320KB
-
-### Display
-
-- **Type**: 32×16 RGB LED Matrix Panel
-- **Interface**: HUB75 (16-pin)
-- **Scan Rate**: 1/8 scan multiplexing
-- **Colors**: 8 colors (1-bit RGB per pixel)
-
 ## 📌 Pin Configuration
 
 | Pin  | Function | Description             |
@@ -258,5 +236,4 @@ This project was developed through systematic debugging and optimization. For de
 
 ---
 
-**Status**: ✅ **Complete and fully functional with button controls and Smash Bot Arena 2025 features**</content>
-<parameter name="filePath">c:\Users\rolni\kody\STM32-32x16_RGB_LED\README_new.md
+**Status**: ✅ **Complete and fully functional with button controls and Smash Bot Arena 2025 features**
