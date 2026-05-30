@@ -8,6 +8,14 @@ STM32-driven countdown timer for a 32×16 RGB LED matrix — built for the Smash
 
 One of two modules in the system: see also [STM32_MODBUS_RTU_slave_sensor_module](https://github.com/JackobPunch/STM32_MODBUS_RTU_slave_sensor_module).
 
+## Features
+
+- Countdown from 03:00 in MM:SS format, persistent 00:00 on finish
+- Four visual states (ready, running, stopped, finished) — distinct colors and labels per state
+- Debounced start/stop/reset buttons with falling-edge detection and internal pull-ups
+- Custom `RGBmatrixPanel_STM32` driver class adapted from Adafruit RGB Matrix Panel for STM32 HAL
+- 8-color support (1-bit RGB) via `Color333()` and `Color1bit()` helpers
+
 ## Hardware
 
 | | |
@@ -34,6 +42,27 @@ One of two modules in the system: see also [STM32_MODBUS_RTU_slave_sensor_module
 | Running | GO!!! | Green + Red countdown |
 | Stopped | STOP | Red + Yellow countdown |
 | Finished | STOP | Red + Yellow 00:00 |
+
+## API
+
+```cpp
+// Display driver
+void begin();
+void updateDisplay();
+void fillScreen(uint16_t color);
+void setCursor(int16_t x, int16_t y);
+void setTextColor(uint16_t color);
+void print(const char *str);
+uint16_t Color333(uint8_t r, uint8_t g, uint8_t b);
+uint16_t Color1bit(uint8_t r, uint8_t g, uint8_t b);
+
+// Countdown control
+void countdown_init();
+void countdown();        // call in main loop
+void countdown_start();
+void countdown_stop();
+void countdown_reset();
+```
 
 ## Dependencies
 
