@@ -4,6 +4,8 @@
 
 _A sped-up 4x demonstration showing all timer functionalities on dual displays_
 
+> **Part of the Smash Bot Arena 2025 system** — developed for [KN Integra](https://github.com/KN-Integra) Science Club at AGH University. See also [STM32_MODBUS_RTU_slave_sensor_module](https://github.com/JackobPunch/STM32_MODBUS_RTU_slave_sensor_module): the companion environmental sensor module (MQ2 gas + SCD30 CO₂) with Modbus RTU RS485 communication. The next planned stage combines both projects on a single STM32 — replacing button control with Modbus commands.
+
 ## 🏆 Smash Bot Arena 2025 Project
 
 This project was developed for **Smash Bot Arena 2025**, a competitive robotics event. The goal was to create LED matrix displays for all four sides of the competition arena to show countdown timers and match status.
